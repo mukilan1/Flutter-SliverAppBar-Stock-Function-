@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
+import 'package:google_fonts/google_fonts.dart';
 
 class MyApp extends StatelessWidget {
   @override
@@ -21,14 +18,27 @@ class MyApp extends StatelessWidget {
                 expandedHeight: 200,
               ),
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text('Item $index'),
-                  );
-                },
-                childCount: 20,
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 100,
+                  ),
+                  Row(children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Text(
+                        "Stories :",
+                        style: GoogleFonts.ubuntu(
+                            fontWeight: FontWeight.bold, fontSize: 25),
+                      ),
+                    )
+                  ]),
+                  Container(
+                    height: 2000,
+                    color: const Color.fromARGB(255, 255, 243, 206),
+                  )
+                ],
               ),
             ),
           ],
@@ -58,29 +68,38 @@ class _MyAppBar extends SliverPersistentHeaderDelegate {
       fit: StackFit.expand,
       clipBehavior: Clip.none,
       children: [
-        Container(
-          color: Colors.blue,
-          child: SafeArea(
+        ClipRRect(
+          borderRadius: BorderRadius.only(
+            bottomLeft:
+                proportion > 0 ? Radius.circular(16) : Radius.circular(0),
+            bottomRight:
+                proportion > 0 ? Radius.circular(16) : Radius.circular(0),
+          ),
+          child: Container(
+            color: Colors.blue,
+            child: SafeArea(
               child: Padding(
-            padding: EdgeInsets.only(left: 20, top: 10),
-            child: Text(
-              'Sliver App Bar',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+                padding: EdgeInsets.only(left: 20, top: 10),
+                child: Text(
+                  'Sliver App Bar',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
-          )),
+          ),
         ),
         Positioned(
-          bottom: -100, // Adjust this value to control the overlap
+          bottom: -150, // Adjust this value to control the overlap
           left: 0,
           right: 0,
           child: Visibility(
             visible: proportion > 0, // Hide the widget when proportion is 0
             child: Container(
-              height: 200,
+              height: 250,
               margin: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -114,7 +133,7 @@ class _MyAppBar extends SliverPersistentHeaderDelegate {
   double get maxExtent => expandedHeight;
 
   @override
-  double get minExtent => kToolbarHeight + 30; // Set the desired toolbar height
+  double get minExtent => kToolbarHeight + 30;
 
   @override
   bool shouldRebuild(_MyAppBar oldDelegate) {
